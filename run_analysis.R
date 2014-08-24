@@ -1,4 +1,5 @@
 prep<-function(){
+        #Loads all libraries
         library(data.table)
 
 }
@@ -10,19 +11,22 @@ getTidyData<-function(){
         print("Run Get Average Data")
         avg<-getAvgData(DT)
         print("Write Average Data To File")
-        write.table(avg,file="data/UCI_HAR_Dataset/tidyData.csv",row.name=F,sep=",")
+        write.table(avg,file="data/UCI_HAR_Dataset/tidyData.txt",row.name=F,sep=",")
             
 }
 
 getAllData<-function(){
         print("Run Get All Data")
+        #Read in auxillary tables
         features<-read.table("data/UCI_HAR_Dataset/features.txt",header=F)
         activity<-read.table("data/UCI_HAR_Dataset/activity_labels.txt",header=F)
         
+        #Retrieve Data
         testData<-getTest(features,activity)
         trainData<-getTrain(features,activity)
-        allData<-rbind(testData,trainData)
-        
+        allData<-rbind(testData,trainData
+                       )
+        #Subset data to show only required variables
         t1<-subset(allData,,colnames(allData)[1:2])
         t2<-subset(allData,,colnames(allData) %like% "std")
         t3<-subset(allData,,colnames(allData) %like% "mean")
